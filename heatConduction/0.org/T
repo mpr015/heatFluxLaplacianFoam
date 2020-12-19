@@ -1,0 +1,41 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 723.15;
+
+boundaryField
+{
+    Wall
+    {
+	type		laserConvection;
+	value		$internalField;
+	
+	HTCheating	10.0;
+	HTCquenching	10.0;
+	TfH		373.15;
+	TfQ		373.15;
+	heatingTime	10;
+
+	kName		k;
+	kValue		35.0;
+	
+	powerReduceName	none;
+    }
+}
+
+// ************************************************************************* //

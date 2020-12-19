@@ -1,0 +1,17 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+
+runApplication $(getApplication)
+
+#runApplication postProcess -func 'grad(T)'
+
+#mv log.postProcess log.postProcess-gradT
+
+#runApplication postProcess -func 'mag(grad(T))'
+
+#mv log.postProcess log.postProcess-magGradT
+
+#------------------------------------------------------------------------------

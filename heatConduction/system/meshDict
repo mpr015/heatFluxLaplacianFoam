@@ -1,0 +1,112 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                |
+| \\      /  F ield         | cfMesh: A library for mesh generation          | 
+|  \\    /   O peration     |                                                |
+|   \\  /    A nd           | Author: Franjo Juretic                         | 
+|    \\/     M anipulation  | E-mail: franjo.juretic@c-fields.com            |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version   2.0;
+    format    ascii;
+    class     dictionary;
+    location  "system";
+    object    meshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaceFile "Sphere_1.stl";
+
+maxCellSize 0.001;
+
+boundaryCellSize 0.001;
+//boundaryCellSize 0.01;
+
+//distance from the boundary at which boundary cell size shall be used (optional)
+//boundaryCellSizeRefinementThickness 0.02;
+
+//minimum cell size allowed in the automatic refinement procedure (optional)
+//minCellSize 0.0025;
+//minCellSize 0.005;
+
+renameBoundary
+{
+    defaultName		Wall;
+    defaultType		wall;
+
+    /*newPatchNames
+    {
+        "Inlet_0"
+        {
+            newName     Inlet;
+            newType     patch;
+        }
+
+        "Outlet_1"
+        {
+            newName     Outlet;
+            newType     patch;
+        }
+
+        "Wall"
+        {
+            newName     Wall;
+            newType     wall;
+        }
+    }*/
+}
+
+localRefinement
+{
+    /*"Wall"
+    {
+        refinementThickness	0.025;
+    } */
+}
+
+
+boundaryLayers
+{
+    nLayers 2;
+
+    thicknessRatio 1.0;
+
+    maxFirstLayerThickness 0.5;
+
+    /*patchBoundaryLayers
+    {
+	"(Inlet_0|Outlet_1)"{
+	nLayers 0;
+	}
+    }*/
+
+    optimiseLayer 1; //activates smoothing of layers - very important in bends
+
+    optimisationParameters
+    {
+        nSmoothNormals      5; //number of iterations in the procedure for reducing normal variation
+        relThicknessTol     0.1; // maximum allowed thickness variation of thickness between two neighbouring points divided by te distance between the points
+        featureSizeFactor   0.4; //ratio between the maximum layer thickness and the estimated feature size
+        reCalculateNormals  1; //activate 1 or deactivate 0 calculation of normal
+        maxNumIterations    10; //maxium number of iterations of the whole procedure
+    }
+}
+
+objectRefinements
+{
+    /*bendRefinement
+    {
+        cellSize 0.005;
+        type box;
+        centre  (0.1 0.0 2.25);
+        lengthX  0.7;
+        lengthY  1.0;
+        lengthZ  0.5;
+    }*/
+}
+
+               
+     
+// ************************************************************************* //

@@ -1,0 +1,89 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     heatFluxLaplacianFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         14400;
+
+deltaT          10;
+
+writeControl    runTime;
+
+writeInterval   200;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  12;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+libs ("liblaserConvectionBC.so");
+
+functions
+{
+	heatFlow
+	{
+		type            surfaceFieldValue;
+		libs            ("libfieldFunctionObjects.so");
+		log             true;
+		enabled         true;
+		writeControl    timeStep;
+		writeInterval   1;
+		writeFields     false;
+		surfaceFormat   vtk;
+		writeArea       true;
+		regionType      patch;
+		name            Wall;
+		fields          (kgradT);
+		operation       areaNormalIntegrate;
+	}
+
+	VolumeAvgTemperature
+	{
+		type            volFieldValue;
+		libs            (fieldFunctionObjects);
+
+		writeControl    timeStep;
+		writeInterval   1;
+		writeFields     false;
+		log             true;
+
+		operation       volAverage;
+
+		fields
+		(
+		    T
+		);
+	}
+
+}
+
+// ************************************************************************* //
